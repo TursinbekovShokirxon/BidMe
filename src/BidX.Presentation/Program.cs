@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddAndConfigureApiControllers()
     .AddAndConfigureSwagger()
-    .AddAndConfigureDBContext()
+    .AddAndConfigureDBContext(builder.Configuration)
     .AddAndConfigureIdentity()
     .AddAndConfigureJwtAuthentication()
     .AddAndConfigureSignalR()

@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Quartz;
+using sib_api_v3_sdk.Client;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace BidX.Presentation.Utils;
@@ -89,11 +90,10 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddAndConfigureDBContext(this IServiceCollection services)
+    public static IServiceCollection AddAndConfigureDBContext(this IServiceCollection services,IConfiguration configuration)
     {
         services.AddDbContextFactory<AppDbContext>(options =>
-            options.UseSqlServer(Environment.GetEnvironmentVariable("BIDX_DB_CONNECTION_STRING")));
-
+     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))); 
         return services;
     }
 
