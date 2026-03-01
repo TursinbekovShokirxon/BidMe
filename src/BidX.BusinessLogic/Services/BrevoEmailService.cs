@@ -12,7 +12,7 @@ public class BrevoEmailService : IEmailService
     private readonly TransactionalEmailsApi apiInstance;
     public BrevoEmailService(IConfiguration configuration)
     {
-        Configuration.Default.ApiKey["api-key"] = Environment.GetEnvironmentVariable("BREVO_EMAIL_SERVICE_API_KEY");
+        Configuration.Default.ApiKey["api-key"] = configuration["email_Api:BREVO_EMAIL_SERVICE_API_KEY"];
         apiInstance = new TransactionalEmailsApi();
         this.configuration = configuration;
     }

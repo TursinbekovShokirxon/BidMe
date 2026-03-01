@@ -115,14 +115,14 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddAndConfigureJwtAuthentication(this IServiceCollection services)
+    public static IServiceCollection AddAndConfigureJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
-        .AddJwtBearer(static options =>
+        .AddJwtBearer(options =>
         {
             options.TokenValidationParameters = new TokenValidationParameters
             {
@@ -130,10 +130,9 @@ public static class ServiceCollectionExtensions
                 ValidateAudience = false,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("BIDX_JWT_SECRET_KEY")!)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:JwtSettings:SecretKey"]!)),
                 ClockSkew = TimeSpan.FromSeconds(30),
             };
-
             options.Events = new JwtBearerEvents
             {
                 OnMessageReceived = context =>
@@ -148,7 +147,6 @@ public static class ServiceCollectionExtensions
                 }
             };
         });
-
         return services;
     }
 

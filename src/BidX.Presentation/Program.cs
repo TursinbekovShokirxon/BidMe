@@ -13,7 +13,7 @@ builder.Services
     .AddAndConfigureSwagger()
     .AddAndConfigureDBContext(builder.Configuration)
     .AddAndConfigureIdentity()
-    .AddAndConfigureJwtAuthentication()
+    .AddAndConfigureJwtAuthentication(builder.Configuration)
     .AddAndConfigureSignalR()
     .AddAndConfigureMediatR()
     .AddAndConfigureQuartz()
