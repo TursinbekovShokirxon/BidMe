@@ -163,7 +163,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddAndConfigureCors(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddCors(options =>
+       /* services.AddCors(options =>
         {
             var frontendOrigin = configuration["Cors:FrontendOrigin"]!;
             options.AddPolicy(name: "AllowFrontendDomain", policy =>
@@ -171,7 +171,7 @@ public static class ServiceCollectionExtensions
                       .AllowAnyMethod()
                       .AllowAnyHeader()
                       .AllowCredentials());
-        });
+        });*/
 
         return services;
     }
@@ -221,7 +221,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IEmailService, BrevoEmailService>();
         services.AddScoped<ICitiesService, CitiesServices>();
         services.AddScoped<ICategoriesService, CategoriesService>();
-        services.AddScoped<ICloudService, CloudinaryCloudService>();
+        services.AddScoped<ICloudService, MinIOCloudService>();
         services.AddScoped<IAuctionsService, AuctionsService>();
         services.AddScoped<IBidsService, BidsService>();
         services.AddScoped<IProfilesService, ProfilesService>();
