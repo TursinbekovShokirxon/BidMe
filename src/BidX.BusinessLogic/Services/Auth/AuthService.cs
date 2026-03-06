@@ -120,9 +120,14 @@ public class AuthService : IAuthService
 
         if (!user.EmailConfirmed)
         {
-            return Result<LoginResponse>.Failure(
-                ErrorCode.AUTH_EMAIL_NOT_CONFIRMED,
-                ["The email has not been confirmed."]);
+
+            var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            ConfirmEmailRequest emailRequest = new() { Token = token, UserId =user.Id };
+            await ConfirmEmail(emailRequest);
+            //return Result<LoginResponse>.Failure(
+            //    ErrorCode.AUTH_EMAIL_NOT_CONFIRMED,
+            //    ["The email has not been confirmed."]);
         }
 
         await userManager.ResetAccessFailedCountAsync(user);
