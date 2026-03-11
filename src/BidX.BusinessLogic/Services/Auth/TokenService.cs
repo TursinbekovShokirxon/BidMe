@@ -81,7 +81,7 @@ public class TokenService : ITokenService
 
     private SigningCredentials GetSigningCredentials()
     {
-        var secretkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("BIDX_JWT_SECRET_KEY")!));
+        var secretkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:JwtSettings:SecretKey"]!));
         return new SigningCredentials(secretkey, SecurityAlgorithms.HmacSha256);
     }
 }
