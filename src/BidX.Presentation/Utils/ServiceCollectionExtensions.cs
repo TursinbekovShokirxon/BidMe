@@ -93,7 +93,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddAndConfigureDBContext(this IServiceCollection services,IConfiguration configuration)
     {
         services.AddDbContextFactory<AppDbContext>(options =>
-     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))); 
+        options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))); 
         return services;
     }
 

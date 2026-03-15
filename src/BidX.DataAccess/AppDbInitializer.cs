@@ -17,8 +17,8 @@ public static class AppDbInitializer
 
     public static async Task SeedAdminAccounts(this UserManager<User> userManager)
     {
-        var email = Environment.GetEnvironmentVariable("BIDX_ADMIN_EMAIL");
-        var password = Environment.GetEnvironmentVariable("BIDX_ADMIN_PASSWORD");
+        var email = "javlonshokir@gmail.com";//Environment.GetEnvironmentVariable("BIDX_ADMIN_EMAIL");
+        var password = "haRD#?2026paSS";// Environment.GetEnvironmentVariable("BIDX_ADMIN_PASSWORD");
 
         if (await userManager.FindByEmailAsync(email!) == null)
         {
