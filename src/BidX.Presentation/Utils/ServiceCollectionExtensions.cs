@@ -163,15 +163,15 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddAndConfigureCors(this IServiceCollection services, IConfiguration configuration)
     {
-       /* services.AddCors(options =>
+       services.AddCors(options =>
         {
             var frontendOrigin = configuration["Cors:FrontendOrigin"]!;
             options.AddPolicy(name: "AllowFrontendDomain", policy =>
-                policy.WithOrigins(frontendOrigin)
+                policy.WithOrigins("http://localhost:3000")
                       .AllowAnyMethod()
                       .AllowAnyHeader()
                       .AllowCredentials());
-        });*/
+        });
 
         return services;
     }
