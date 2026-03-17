@@ -64,8 +64,9 @@ public class MinIOCloudService : ICloudService
         if (!int.TryParse(configuration["images:ProductImageWidth"], out productImageSize.Width) ||
             !int.TryParse(configuration["images:ProductImageHeight"], out productImageSize.Height))
         {
-            productImageSize.Width = 800;
-            productImageSize.Height = 800;
+            // Стало — больше размер, сохраняет пропорции
+            productImageSize.Width = 1920;
+            productImageSize.Height = 1080;
         }
     }
 
@@ -181,9 +182,18 @@ public class MinIOCloudService : ICloudService
         source.Position = 0;
         using var img = await SixLabors.ImageSharp.Image.LoadAsync(source);
 
+        // Если изображение меньше целевого — НЕ увеличивать
+        if (img.Width <= size.Width && img.Height <= size.Height)
+        {
+            var output = new MemoryStream();
+            await img.SaveAsJpegAsync(output, new JpegEncoder { Quality = 95 });
+            output.Position = 0;
+            return output;
+        }
+
         var resizeMode = cropMode == ThumbnailCropMode
-            ? ResizeMode.Crop   // "fill" – crop to exact size
-            : ResizeMode.Max;   // "fit"  – fit inside box
+            ? ResizeMode.Crop
+            : ResizeMode.Max; // сохраняет пропорции
 
         img.Mutate(ctx => ctx.Resize(new ResizeOptions
         {
@@ -191,10 +201,10 @@ public class MinIOCloudService : ICloudService
             Mode = resizeMode
         }));
 
-        var output = new MemoryStream();
-        await img.SaveAsJpegAsync(output, new JpegEncoder { Quality = 85 }); // "auto" quality ≈ 85
-        output.Position = 0;
-        return output;
+        var outputResized = new MemoryStream();
+        await img.SaveAsJpegAsync(outputResized, new JpegEncoder { Quality = 95 });
+        outputResized.Position = 0;
+        return outputResized;
     }
 
     // ──────────────────────────────────────────────
