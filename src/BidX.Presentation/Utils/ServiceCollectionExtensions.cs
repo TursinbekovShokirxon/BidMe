@@ -167,7 +167,7 @@ public static class ServiceCollectionExtensions
         {
             var frontendOrigin = configuration["Cors:FrontendOrigin"]!;
             options.AddPolicy(name: "AllowFrontendDomain", policy =>
-                policy.WithOrigins("http://localhost:3000")
+                policy.WithOrigins("http://localhost:3000", "http://5.42.116.37:8081")
                       .AllowAnyMethod()
                       .AllowAnyHeader()
                       .AllowCredentials());
