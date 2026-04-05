@@ -46,7 +46,8 @@ public class MinIOCloudService : ICloudService
         bucketName = configuration["MinIO:BucketName"] ?? "bidx-uploads";
 
         // Public URL base for generating file URLs (e.g. http://localhost:9000/bidx-uploads)
-        publicEndpoint = $"{configuration["MinIO:Endpoint"]}/{bucketName}";
+        publicEndpoint = configuration["MinIO:PublicEndpoint"]
+            ?? $"{configuration["MinIO:Endpoint"]}/{bucketName}";
 
         if (!int.TryParse(configuration["images:MaxIconSizeAllowed"], out maxIconSizeAllowed))
             maxIconSizeAllowed = 256 * 1024; // 256 KB
